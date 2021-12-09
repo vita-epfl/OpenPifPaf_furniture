@@ -1,0 +1,36 @@
+======================================================
+=== Keypoint-5 dataset for 2D keypoints on furniture
+======================================================
+
+This dataset consists of images of five categories of furniture, and their 2D
+keypoint coordinates. The categories are bed, chair, sofa, swivelchair, and
+table.
+
+For each category, its folder contains
+- ./images: images of objects of the category
+- ./[train|test].txt: our suggested train/test split of images 
+- ./coords.mat: coordinates of keypoints in a mat file. It contains a single
+  variable 'coords' of size 2 x K x P x N, where K is the number of keypoints of
+  the object category, P is the number of people on Amazon Mechanical Turk who 
+  labeled the image, and N is the number of images in the category. Note that P 
+  may vary for each image. Coordinates are in the format of [column, row].
+
+======================================================
+=== Citation
+======================================================
+
+If you use this dataset in your work, please cite the following work:
+
+@article{wu2016single,
+   title={{Single Image 3D Interpreter Network}},
+   author={Jiajun Wu and Tianfan Xue and Joseph J. Lim and Yuandong Tian and Joshua B. Tenenbaum and Antonio Torralba and William T. Freeman},
+   journal={ECCV},
+   year={2016}
+}
+
+======================================================
+=== Contact info
+======================================================
+For questions, please contact Jiajun Wu (jiajunwu@mit.edu) and Tianfan Xue (tfxue@mit.edu).
+
+Dec 2, 2016

@@ -1,0 +1,23 @@
+predict: python3 -m openpifpaf.predict test_image/pascal3d/sofa/n03693474_00023318.jpg   --checkpoint=./outputs_pascal3d_sofa/s30/shufflenetv2k30-211106-034539-pascal3d-slurm781348.pkl.epoch150 -o test_image/pascal3d/sofa/result_single_30/test12   --instance-threshold 0.05 --seed-threshold 0.05   --line-width 8 --font-size 0 --cif-th 0.001 --caf-th 0.001
+
+eval: CUDA_VISIBLE_DEVICES=0 python3 -m openpifpaf.eval --dataset=keypoint5 --loader-workers=12 --checkpoint= --instance-threshold 0.05 --seed-threshold 0.05 --cif-th 0.001 --caf-th 0.001 --keypoint5-eval-long-edge=0
+
+video: python3 -m openpifpaf.video --source=./test_videos/v13.mp4 --checkpoint=./outputs_furniture/shufflenetv2k30-211108-165816-keypoint5-pascal3d-slurm782026.pkl.epoch150 --instance-threshold 0.05 --seed-threshold 0.05 --cif-th 0.1 --caf-th 0.1  --video-output --json-output
+
+train: python3 -m openpifpaf.train --dataset apollo --basenet=shufflenetv2k16 --apollo-square-edge=769 --lr=0.00002 --momentum=0.95  --b-scale=5.0 --epochs=300 --lr-decay 160 260 --lr-decay-epochs=10  --weight-decay=1e-5 --weight-decay=1e-5  --val-interval 10 --loader-workers 16 --apollo-upsample 2 --apollo-bmin 2 --batch-size 8
+
+debug: python3 -m openpifpaf.predict test_image/keypoint-5/bed/kp5_bed_00000341.jpg   --checkpoint=./outputs_kp5_all/cls_s30/shufflenetv2k30-211130-013251-keypoint5-slurm796332.pkl.epoch148 -o test_image/keypoint-5/bed/cls_30/test1   --instance-threshold 0.1 --seed-threshold 0.05   --line-width 8 --font-size 0 --cif-th 0.001 --caf-th 0.001 --debug-indices cif:5 caf:5 --save-all=debug_example
+
+
+#############################
+environment establish:
+module load gcc
+module load python/3.7.7
+virtualenv --system-site-packages venvs/v_c_openpifpaf
+source venvs/v_c_openpifpaf/bin/activate
+pip3 install --editable '.[dev,train,test]'
+pip3 install "openpifpaf[backbones,coreml,dev,onnx,test,train]"
+pip3 freeze
+python3 -m openpifpaf.predict --version
+############################
+
